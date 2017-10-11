@@ -14,5 +14,8 @@ module.exports = {
   Show: require("./components/Show.jsx")({
     withScreenDetails
   }),
+  Switch: require("./components/Switch.jsx")({
+    withScreenDetails
+  }),
   withScreenDetails
 };
