@@ -2,12 +2,12 @@
   "name": "aerial",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "lib/dom.js",
   "scripts": {
-    "build": "babel lib --out-dir dist --ignore test.js",
-    "test": "mocha --compilers js:babel-core/register mochaInit.js \"lib/**/*.test.{js,jsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx}\" \"lib/**/*.{js,jsx}\"",
-    "format-check": "prettier --list-different \"src/**/*.{js,jsx}\" \"lib/**/*.{js,jsx}\""
+    "build": "babel src --out-dir lib --ignore test.js",
+    "test": "mocha --compilers js:babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "format-check": "prettier --list-different \"src/**/*.{js,jsx}\""
   },
   "repository": {
     "type": "git",
