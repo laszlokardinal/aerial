@@ -1,0 +1,41 @@
+{
+  "name": "aerial",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register mochaInit.js \"lib/**/*.test.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"lib/**/*.{js,jsx}\"",
+    "format-check": "prettier --list-different \"src/**/*.{js,jsx}\" \"lib/**/*.{js,jsx}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laszlokardinal/aerial.git"
+  },
+  "author": "László Kardinál",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/laszlokardinal/aerial/issues"
+  },
+  "homepage": "https://github.com/laszlokardinal/aerial#readme",
+  "dependencies": {
+    "prop-types": "^15.5.0",
+    "react": "^15.5.0",
+    "react-broadcast": "^0.5.2",
+    "react-dom": "^15.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-15": "^1.0.1",
+    "jsdom": "^11.3.0",
+    "mocha": "^4.0.1",
+    "prettier": "1.7.4",
+    "react-test-renderer": "^15.6.2",
+    "sinon": "^4.0.1"
+  }
+}
