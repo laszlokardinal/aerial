@@ -11,5 +11,8 @@ module.exports = {
     withScreenDetails
   }),
   ScreenDetailsProvider: require("./components/ScreenDetailsProvider.jsx")(),
+  Show: require("./components/Show.jsx")({
+    withScreenDetails
+  }),
   withScreenDetails
 };
