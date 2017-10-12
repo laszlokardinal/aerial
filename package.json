@@ -5,7 +5,7 @@
   "main": "dom.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore test.js",
-    "test": "mocha --compilers js:babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",
+    "test": "mocha --require babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "format-check": "prettier --list-different \"src/**/*.{js,jsx}\""
   },
