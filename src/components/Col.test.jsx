@@ -17,7 +17,8 @@ describe("<Col />", () => {
     withScreenDetails.returns(wrappedComponent);
 
     const Col = require("./Col.jsx")({
-      withScreenDetails
+      withScreenDetails,
+      Wrapper: "div"
     });
 
     expect(withScreenDetails.calledOnce).to.be.true;
@@ -26,9 +27,10 @@ describe("<Col />", () => {
   });
 
   describe("renders", () => {
-    it("a wrapper div", () => {
+    it("a wrapper", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(<Col screenDetails={screenDetails} />);
@@ -42,7 +44,8 @@ describe("<Col />", () => {
 
     it("children inside the wrapper", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(
@@ -60,7 +63,8 @@ describe("<Col />", () => {
 
     it("applies default styles on the wrapper", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(<Col screenDetails={screenDetails} />);
@@ -76,7 +80,8 @@ describe("<Col />", () => {
 
     it("the wrapper with the style prop applied", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const style = {
@@ -98,7 +103,8 @@ describe("<Col />", () => {
 
     it("the wrapper with the className prop applied", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const className = "block__element block__element--modifier";
@@ -116,7 +122,8 @@ describe("<Col />", () => {
 
     it("applies the highest matching active width from the props", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(
@@ -134,7 +141,8 @@ describe("<Col />", () => {
 
     it("applies 100% width if there is no matching prop", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(<Col screenDetails={screenDetails} d={0.75} />);
@@ -150,7 +158,8 @@ describe("<Col />", () => {
 
     it("applies the highest matching active offset from the props", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(
@@ -173,7 +182,8 @@ describe("<Col />", () => {
 
     it("applies no offset if there is no matching offset prop", () => {
       const Col = require("./Col.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(

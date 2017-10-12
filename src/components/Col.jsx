@@ -2,7 +2,8 @@ module.exports = (
   {
     React = require("react"),
     PropTypes = require("prop-types"),
-    withScreenDetails
+    withScreenDetails,
+    Wrapper
   } = {}
 ) => {
   const { Component } = React;
@@ -21,7 +22,7 @@ module.exports = (
       );
 
     return (
-      <div
+      <Wrapper
         className={className}
         style={{
           ...style,
@@ -31,7 +32,7 @@ module.exports = (
         }}
       >
         {children}
-      </div>
+      </Wrapper>
     );
   };
 

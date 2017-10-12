@@ -17,7 +17,8 @@ describe("<Container />", () => {
     withScreenDetails.returns(wrappedComponent);
 
     const Container = require("./Container.jsx")({
-      withScreenDetails
+      withScreenDetails,
+      Wrapper: "div"
     });
 
     expect(withScreenDetails.calledOnce).to.be.true;
@@ -26,9 +27,10 @@ describe("<Container />", () => {
   });
 
   describe("renders", () => {
-    it("a wrapper div", () => {
+    it("a wrapper", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(<Container screenDetails={screenDetails} />);
@@ -42,7 +44,8 @@ describe("<Container />", () => {
 
     it("children inside the wrapper", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const wrapper = shallow(
@@ -60,7 +63,8 @@ describe("<Container />", () => {
 
     it("the wrapper with auto marginLeft & marginRight", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const style = {
@@ -84,7 +88,8 @@ describe("<Container />", () => {
 
     it("the wrapper with the style prop applied", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const style = {
@@ -106,7 +111,8 @@ describe("<Container />", () => {
 
     it("the wrapper with the className prop applied", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const className = "block__element block__element--modifier";
@@ -124,7 +130,8 @@ describe("<Container />", () => {
 
     it("the wrapper with the containerWidth of the highest active breakpoint", () => {
       const Container = require("./Container.jsx")({
-        withScreenDetails: Component => Component
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
       });
 
       const className = "block__element block__element--modifier";

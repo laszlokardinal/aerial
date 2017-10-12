@@ -2,13 +2,16 @@ const withScreenDetails = require("./hocs/withScreenDetails")();
 
 module.exports = {
   Col: require("./components/Col")({
-    withScreenDetails
+    withScreenDetails,
+    Wrapper: "div"
   }),
   Container: require("./components/Container")({
-    withScreenDetails
+    withScreenDetails,
+    Wrapper: "div"
   }),
   Row: require("./components/Row")({
-    withScreenDetails
+    withScreenDetails,
+    Wrapper: "div"
   }),
   ScreenDetailsProvider: require("./components/ScreenDetailsProvider")(),
   Show: require("./components/Show")({
