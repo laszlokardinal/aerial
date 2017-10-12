@@ -2,7 +2,7 @@
   "name": "aerial",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/dom.js",
+  "main": "dom.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore test.js",
     "test": "mocha --compilers js:babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",

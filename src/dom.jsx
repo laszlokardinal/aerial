@@ -1,3 +1,9 @@
+const detailsSource = window
+  ? require("./detailsSources/domDetailsSource")({
+      window
+    })
+  : null;
+
 const withScreenDetails = require("./hocs/withScreenDetails")();
 
 module.exports = {
@@ -13,7 +19,9 @@ module.exports = {
     withScreenDetails,
     Wrapper: "div"
   }),
-  ScreenDetailsProvider: require("./components/ScreenDetailsProvider")(),
+  ScreenDetailsProvider: require("./components/ScreenDetailsProvider")({
+    detailsSource
+  }),
   Show: require("./components/Show")({
     withScreenDetails
   }),

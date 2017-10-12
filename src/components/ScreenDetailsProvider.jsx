@@ -3,7 +3,7 @@ module.exports = (
     React = require("react"),
     PropTypes = require("prop-types"),
     Broadcast = require("react-broadcast").Broadcast,
-    window = global.window
+    detailsSource
   } = {}
 ) => {
   const { Component } = React;
@@ -12,7 +12,9 @@ module.exports = (
     constructor(props) {
       super(props);
 
-      const deviceWidth = props.deviceWidth || (window ? window.innerWidth : 0);
+      const deviceWidth =
+        props.deviceWidth ||
+        (detailsSource ? detailsSource.getDeviceWidth() : 0);
 
       this.state = this.computeState(deviceWidth);
     }
@@ -37,8 +39,8 @@ module.exports = (
         if (nextProps.deviceWidth) {
           this.setState(this.computeState(nextProps.deviceWidth));
         } else {
-          if (window && window.innerWidth) {
-            this.setState(this.computeState(window.innerWidth));
+          if (detailsSource) {
+            this.setState(this.computeState(detailsSource.getDeviceWidth()));
           } else {
             this.setState(this.computeState(0));
           }
@@ -56,21 +58,23 @@ module.exports = (
 
     handleResize = () => {
       if (!this.props.deviceWidth) {
-        const deviceWidth = window.innerWidth;
+        const deviceWidth = detailsSource.getDeviceWidth();
 
         this.setState(this.computeState(deviceWidth));
       }
     };
 
     componentDidMount() {
-      if (window) {
-        window.addEventListener("resize", this.handleResize);
+      if (detailsSource) {
+        this.removeEventListener = detailsSource.addEventListener(
+          this.handleResize
+        );
       }
     }
 
     componentWillUnmount() {
-      if (window) {
-        window.removeEventListener("resize", this.handleResize);
+      if (this.removeEventListener) {
+        this.removeEventListener();
       }
     }
 

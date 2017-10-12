@@ -1,9 +1,27 @@
+class DetailsSource {
+  _listeners = [];
+
+  addEventListener(listener) {
+    this._listeners = this._listeners.concat(listener);
+  }
+
+  removeEventListener(listener) {
+    this._listeners = this._listeners.filter(item => item !== listener);
+  }
+
+  _deviceWidth = 1024;
+
+  getDeviceWidth() {
+    return this._deviceWidth;
+  }
+}
+
 describe("<ScreenDetailsProvider />", () => {
   describe("if deviceWidth prop presents", () => {
     describe("on mount", () => {
       it("sets deviceWidth in the state to props.deviceWidth", () => {
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window: null
+          detailsSource: null
         });
 
         const wrapper = shallow(<ScreenDetailsProvider deviceWidth={1234} />);
@@ -18,7 +36,7 @@ describe("<ScreenDetailsProvider />", () => {
 
       it("marks breakpoints active accordingly", () => {
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window: null
+          detailsSource: null
         });
 
         const wrapper = shallow(
@@ -56,31 +74,30 @@ describe("<ScreenDetailsProvider />", () => {
 
     describe("on resize event", () => {
       it("does not set deviceWidth in the state", () => {
-        const { innerWidth } = window;
+        const detailsSource = new DetailsSource();
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(<ScreenDetailsProvider deviceWidth={256} />);
 
         try {
-          window.innerWidth = 128;
-          window.dispatchEvent(new window.Event("resize"));
+          detailsSource._deviceWidth = 128;
+          detailsSource._listeners.forEach(listener => listener());
 
           const state = wrapper.state();
           expect(state.deviceWidth).to.deep.equal(256);
         } finally {
           wrapper.unmount();
-          window.innerWidth = innerWidth;
         }
       });
 
       it("does not mark breakpoints active accordingly", () => {
-        const { innerWidth } = window;
+        const detailsSource = new DetailsSource();
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(
@@ -97,8 +114,8 @@ describe("<ScreenDetailsProvider />", () => {
         );
 
         try {
-          window.innerWidth = 128;
-          window.dispatchEvent(new window.Event("resize"));
+          detailsSource._deviceWidth = 128;
+          detailsSource._listeners.forEach(listener => listener());
 
           const state = wrapper.state();
           expect(state.breakpoints).to.deep.equal([
@@ -115,7 +132,6 @@ describe("<ScreenDetailsProvider />", () => {
           ]);
         } finally {
           wrapper.unmount();
-          window.innerWidth = innerWidth;
         }
       });
     });
@@ -124,7 +140,7 @@ describe("<ScreenDetailsProvider />", () => {
       describe("if deviceWidth will present", () => {
         it("sets deviceWidth in the state to props.deviceWidth", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource: new DetailsSource()
           });
 
           const wrapper = shallow(<ScreenDetailsProvider deviceWidth={150} />);
@@ -140,7 +156,7 @@ describe("<ScreenDetailsProvider />", () => {
 
         it("marks breakpoints active accordingly", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource: new DetailsSource()
           });
 
           const wrapper = shallow(
@@ -192,13 +208,13 @@ describe("<ScreenDetailsProvider />", () => {
         });
       });
 
-      describe("if deviceWidth won't, but window will present", () => {
-        it("sets deviceWidth in the state to window.innerWidth", () => {
-          const { innerWidth } = window;
-          window.innerWidth = 270;
+      describe("if deviceWidth won't, but detailsSource will present", () => {
+        it("sets deviceWidth in the state to detailsSource's deviceWidth", () => {
+          const detailsSource = new DetailsSource();
+          detailsSource._deviceWidth = 270;
 
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource
           });
 
           const wrapper = shallow(<ScreenDetailsProvider deviceWidth={450} />);
@@ -209,16 +225,15 @@ describe("<ScreenDetailsProvider />", () => {
             expect(state.deviceWidth).to.equal(270);
           } finally {
             wrapper.unmount();
-            window.innerWidth = innerWidth;
           }
         });
 
         it("marks breakpoints active accordingly", () => {
-          const { innerWidth } = window;
-          window.innerWidth = 270;
+          const detailsSource = new DetailsSource();
+          detailsSource._deviceWidth = 270;
 
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource
           });
 
           const wrapper = shallow(
@@ -266,15 +281,14 @@ describe("<ScreenDetailsProvider />", () => {
             ]);
           } finally {
             wrapper.unmount();
-            window.innerWidth = innerWidth;
           }
         });
       });
 
-      describe("if neither deviceWidth nor window will present", () => {
+      describe("if neither deviceWidth nor detailsSource will present", () => {
         it("sets deviceWidth in the state to 0", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window: null
+            detailsSource: null
           });
 
           const wrapper = shallow(<ScreenDetailsProvider deviceWidth={450} />);
@@ -290,7 +304,7 @@ describe("<ScreenDetailsProvider />", () => {
 
         it("marks breakpoints active accordingly", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window: null
+            detailsSource: null
           });
 
           const wrapper = shallow(
@@ -344,52 +358,55 @@ describe("<ScreenDetailsProvider />", () => {
     });
   });
 
-  describe("if window presents", () => {
+  describe("if detailsSource presents", () => {
     describe("on mount", () => {
-      it("adds resize event listener", () => {
-        sinon.spy(window, "addEventListener");
+      it("adds resize event listener, and stores the return value as removeEventListener on the instance", () => {
+        const detailsSource = new DetailsSource();
+
+        const remove = () => {};
+
+        sinon.stub(detailsSource, "addEventListener").returns(remove);
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(<ScreenDetailsProvider />);
 
         try {
-          expect(window.addEventListener.calledOnce).to.be.true;
-          expect(window.addEventListener.getCall(0).args[0]).to.equal("resize");
-          expect(typeof window.addEventListener.getCall(0).args[1]).to.equal(
-            "function"
-          );
+          expect(detailsSource.addEventListener.calledOnce).to.be.true;
+          expect(
+            typeof detailsSource.addEventListener.getCall(0).args[0]
+          ).to.equal("function");
+          expect(wrapper.instance().removeEventListener).to.equal(remove);
         } finally {
           wrapper.unmount();
-          window.addEventListener.restore();
         }
       });
 
-      it("sets deviceWidth in the state to window.innerWidth", () => {
-        const { innerWidth } = window;
+      it("sets deviceWidth in the state to detailsSource's deviceWidth", () => {
+        const detailsSource = new DetailsSource();
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(<ScreenDetailsProvider />);
 
         try {
           const state = wrapper.state();
-          expect(state.deviceWidth).to.equal(innerWidth);
+          expect(state.deviceWidth).to.equal(detailsSource._deviceWidth);
         } finally {
           wrapper.unmount();
         }
       });
 
       it("marks breakpoints active accordingly", () => {
-        const { innerWidth } = window;
-        window.innerWidth = 256;
+        const detailsSource = new DetailsSource();
+        detailsSource._deviceWidth = 256;
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(
@@ -420,40 +437,38 @@ describe("<ScreenDetailsProvider />", () => {
           ]);
         } finally {
           wrapper.unmount();
-          window.innerWidth = innerWidth;
         }
       });
     });
 
     describe("on resize event", () => {
-      it("sets deviceWidth in the state to window.innerWidth", () => {
-        const { innerWidth } = window;
-        window.innerWidth = 256;
+      it("sets deviceWidth in the state to detailsSource's deviceWidth", () => {
+        const detailsSource = new DetailsSource();
+        detailsSource._deviceWidth = 256;
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(<ScreenDetailsProvider />);
 
         try {
-          window.innerWidth = 128;
-          window.dispatchEvent(new window.Event("resize"));
+          detailsSource._deviceWidth = 128;
+          detailsSource._listeners.forEach(listener => listener());
 
           const state = wrapper.state();
           expect(state.deviceWidth).to.equal(128);
         } finally {
           wrapper.unmount();
-          window.innerWidth = innerWidth;
         }
       });
 
       it("marks breakpoints active accordingly", () => {
-        const { innerWidth } = window;
-        window.innerWidth = 256;
+        const detailsSource = new DetailsSource();
+        detailsSource._deviceWidth = 256;
 
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource
         });
 
         const wrapper = shallow(
@@ -469,8 +484,8 @@ describe("<ScreenDetailsProvider />", () => {
         );
 
         try {
-          window.innerWidth = 128;
-          window.dispatchEvent(new window.Event("resize"));
+          detailsSource._deviceWidth = 128;
+          detailsSource._listeners.forEach(listener => listener());
 
           const state = wrapper.state();
           expect(state.breakpoints).to.deep.equal([
@@ -492,7 +507,6 @@ describe("<ScreenDetailsProvider />", () => {
           ]);
         } finally {
           wrapper.unmount();
-          window.innerWidth = innerWidth;
         }
       });
     });
@@ -501,7 +515,7 @@ describe("<ScreenDetailsProvider />", () => {
       describe("if deviceWidth will present", () => {
         it("sets deviceWidth in the state to props.deviceWidth if it presents", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource: new DetailsSource()
           });
 
           const wrapper = shallow(<ScreenDetailsProvider />);
@@ -517,7 +531,7 @@ describe("<ScreenDetailsProvider />", () => {
 
         it("marks breakpoints active accordingly", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window
+            detailsSource: new DetailsSource()
           });
 
           const wrapper = shallow(
@@ -570,30 +584,23 @@ describe("<ScreenDetailsProvider />", () => {
     });
 
     describe("on unmount", () => {
-      it("removes resize event listener", () => {
-        sinon.spy(window, "removeEventListener");
-
+      it("calls removeEventListener on the instance", () => {
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window
+          detailsSource: new DetailsSource()
         });
 
         const wrapper = shallow(<ScreenDetailsProvider />);
 
+        const remove = sinon.spy();
+
         try {
-          expect(window.removeEventListener.calledOnce).to.be.false;
+          wrapper.instance().removeEventListener = remove;
 
           wrapper.unmount();
 
-          expect(window.removeEventListener.calledOnce).to.be.true;
-          expect(window.removeEventListener.getCall(0).args[0]).to.equal(
-            "resize"
-          );
-          expect(typeof window.removeEventListener.getCall(0).args[1]).to.equal(
-            "function"
-          );
+          expect(remove.calledOnce).to.be.true;
         } finally {
           wrapper.unmount();
-          window.removeEventListener.restore();
         }
       });
     });
@@ -603,7 +610,7 @@ describe("<ScreenDetailsProvider />", () => {
     describe("on mount", () => {
       it("sets deviceWidth to 0", () => {
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window: null
+          detailsSource: null
         });
 
         const wrapper = shallow(<ScreenDetailsProvider />);
@@ -618,7 +625,7 @@ describe("<ScreenDetailsProvider />", () => {
 
       it("marks breakpoints active accordingly", () => {
         const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-          window: null
+          detailsSource: null
         });
 
         const wrapper = shallow(
@@ -662,7 +669,7 @@ describe("<ScreenDetailsProvider />", () => {
       describe("if deviceWidth will present", () => {
         it("sets deviceWidth in the state to props.deviceWidth", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window: null
+            detailsSource: null
           });
 
           const wrapper = shallow(<ScreenDetailsProvider />);
@@ -678,7 +685,7 @@ describe("<ScreenDetailsProvider />", () => {
 
         it("marks breakpoints active accordingly", () => {
           const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-            window: null
+            detailsSource: null
           });
 
           const wrapper = shallow(
@@ -734,7 +741,7 @@ describe("<ScreenDetailsProvider />", () => {
   describe("renders", () => {
     it("Broadcast with state as value to the 'aerialScreenDetails' channel", () => {
       const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-        window: null
+        detailsSource: null
       });
 
       const wrapper = shallow(
@@ -766,7 +773,7 @@ describe("<ScreenDetailsProvider />", () => {
 
     it("children inside Broadcast", () => {
       const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-        window: null
+        detailsSource: null
       });
 
       const wrapper = shallow(
@@ -792,7 +799,7 @@ describe("<ScreenDetailsProvider />", () => {
 
     it("null if deviceWidth in the state is 0", () => {
       const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-        window: null
+        detailsSource: null
       });
 
       const wrapper = shallow(
@@ -811,7 +818,7 @@ describe("<ScreenDetailsProvider />", () => {
 
     it("null if there is no children", () => {
       const ScreenDetailsProvider = require("./ScreenDetailsProvider.jsx")({
-        window: null
+        detailsSource: null
       });
 
       const wrapper = shallow(<ScreenDetailsProvider />);
