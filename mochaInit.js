@@ -1,3 +1,7 @@
+require("babel-register")({
+  presets: [ "es2015", "react", "stage-0" ],
+});
+
 const React = require("react");
 
 const Enzyme = require("enzyme");

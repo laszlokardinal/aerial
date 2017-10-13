@@ -4,7 +4,7 @@
   "description": "",
   "main": "dom.js",
   "scripts": {
-    "build": "babel src --out-dir lib --ignore test.js",
+    "build": "babel src --out-dir lib --ignore test.js --presets=es2015,react,stage-0",
     "test": "mocha --require babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "format-check": "prettier --list-different \"src/**/*.{js,jsx}\""
