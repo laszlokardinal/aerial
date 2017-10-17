@@ -12,14 +12,15 @@ module.exports = (
   const Col = props => {
     const { style, className, screenDetails, children } = props;
 
-    const { width, offset } = screenDetails.breakpoints
+    const { width, offset, alignSelf } = screenDetails.breakpoints
       .filter(({ active }) => active)
       .reduce(
-        ({ width, offset }, { size }) => ({
+        ({ width, offset, alignSelf }, { size }) => ({
           width: props[size] || width,
-          offset: props[`${size}Offset`] || offset
+          offset: props[`${size}Offset`] || offset,
+          alignSelf: props[`${size}AlignSelf`] || alignSelf
         }),
-        { width: 1, offset: 0 }
+        { width: 1, offset: 0, alignSelf: null }
       );
 
     return (
@@ -31,7 +32,8 @@ module.exports = (
           width: `${width * 100}%`,
           marginLeft: offset ? `${offset * 100}%` : null,
           flexShrink: 0,
-          flexGrow: 0
+          flexGrow: 0,
+          alignSelf
         }}
       >
         {children}

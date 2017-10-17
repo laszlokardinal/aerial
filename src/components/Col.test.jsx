@@ -217,5 +217,29 @@ describe("<Col />", () => {
         wrapper.unmount();
       }
     });
+
+    it("applies the highest matching AlignItems from the props", () => {
+      const Col = require("./Col.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Col
+          screenDetails={screenDetails}
+          aAlignSelf="flex-start"
+          bAlignSelf="center"
+          dAlignSelf="flex-end"
+        />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          alignSelf: "center"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
   });
 });
