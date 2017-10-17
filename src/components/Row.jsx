@@ -18,13 +18,14 @@ module.exports = (
       children
     } = props;
 
-    const { alignItems } = screenDetails.breakpoints
+    const { alignItems, alignContent } = screenDetails.breakpoints
       .filter(({ active }) => active)
       .reduce(
-        ({ alignItems }, { size }) => ({
-          alignItems: props[`${size}AlignItems`] || alignItems
+        ({ alignItems, alignContent }, { size }) => ({
+          alignItems: props[`${size}AlignItems`] || alignItems,
+          alignContent: props[`${size}AlignContent`] || alignContent
         }),
-        { alignItems: null }
+        { alignItems: null, alignContent: null }
       );
 
     return (
@@ -39,7 +40,8 @@ module.exports = (
           marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
           marginTop: verticalGutter ? -verticalGutter / 2 : null,
           marginBottom: verticalGutter ? -verticalGutter / 2 : null,
-          alignItems
+          alignItems,
+          alignContent
         }}
       >
         {horizontalGutter || verticalGutter

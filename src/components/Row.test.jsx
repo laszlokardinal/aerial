@@ -150,6 +150,30 @@ describe("<Row />", () => {
       }
     });
 
+    it("applies the highest matching AlignContent from the props", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row
+          screenDetails={screenDetails}
+          aAlignContent="flex-start"
+          bAlignContent="center"
+          dAlignContent="flex-end"
+        />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          alignContent: "center"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("the wrapper div with half of the horizontalGutter as negative horizontal margin", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
