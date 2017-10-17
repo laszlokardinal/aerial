@@ -204,8 +204,6 @@ describe("<Row />", () => {
         Wrapper: "div"
       });
 
-      const className = "block__element block__element--modifier";
-
       const wrapper = shallow(
         <Row screenDetails={screenDetails} horizontalGutter={20} />
       );
@@ -226,8 +224,6 @@ describe("<Row />", () => {
         Col: TestCol,
         Wrapper: "div"
       });
-
-      const className = "block__element block__element--modifier";
 
       const wrapper = shallow(
         <Row screenDetails={screenDetails} horizontalGutter={20}>
@@ -275,8 +271,6 @@ describe("<Row />", () => {
         Wrapper: "div"
       });
 
-      const className = "block__element block__element--modifier";
-
       const wrapper = shallow(
         <Row screenDetails={screenDetails} verticalGutter={20} />
       );
@@ -297,8 +291,6 @@ describe("<Row />", () => {
         Col: TestCol,
         Wrapper: "div"
       });
-
-      const className = "block__element block__element--modifier";
 
       const wrapper = shallow(
         <Row screenDetails={screenDetails} verticalGutter={20}>
@@ -335,6 +327,54 @@ describe("<Row />", () => {
             paddingRight: null
           }
         ]);
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("the children in their original order", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Col: TestCol,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row screenDetails={screenDetails} verticalGutter={20}>
+          <TestCol className="first" />
+          <TestCol className="second" />
+          <TestCol className="third" />
+        </Row>
+      );
+
+      try {
+        expect(wrapper.find(".first + .second + .third")).to.have.length(1);
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("the children in the order of their highest matching order prop", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Col: TestCol,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row screenDetails={screenDetails} verticalGutter={20}>
+          <TestCol className="fifth" bOrder={15} cOrder={39} />
+          <TestCol className="fourth" bOrder={20} />
+          <TestCol className="second" />
+          <TestCol className="first" aOrder={-1} />
+          <TestCol className="third" />
+        </Row>
+      );
+
+      try {
+        expect(
+          wrapper.find(".first + .second + .third + .fourth + .fifth")
+        ).to.have.length(1);
       } finally {
         wrapper.unmount();
       }

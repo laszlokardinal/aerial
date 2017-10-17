@@ -18,19 +18,22 @@ module.exports = (
       children
     } = props;
 
+    const activeBreakpoints = screenDetails.breakpoints.filter(
+      ({ active }) => active
+    );
+
     const {
       alignItems,
       alignContent,
       justifyContent
-    } = screenDetails.breakpoints.filter(({ active }) => active).reduce((
-      { alignItems, alignContent, justifyContent },
-      { size }
-    ) => ({
-      alignItems: props[`${size}AlignItems`] || alignItems,
-      alignContent: props[`${size}AlignContent`] || alignContent,
-      justifyContent: props[`${size}JustifyContent`] || justifyContent
-    }),
-    { alignItems: null, alignContent: null, justifyContent: null });
+    } = activeBreakpoints.reduce(
+      ({ alignItems, alignContent, justifyContent }, { size }) => ({
+        alignItems: props[`${size}AlignItems`] || alignItems,
+        alignContent: props[`${size}AlignContent`] || alignContent,
+        justifyContent: props[`${size}JustifyContent`] || justifyContent
+      }),
+      { alignItems: null, alignContent: null, justifyContent: null }
+    );
 
     return (
       <Wrapper
@@ -49,19 +52,35 @@ module.exports = (
           justifyContent
         }}
       >
-        {horizontalGutter || verticalGutter
-          ? React.Children.map(children, col =>
-              React.cloneElement(col, {
-                style: {
-                  ...col.props.style,
-                  paddingLeft: horizontalGutter ? horizontalGutter / 2 : null,
-                  paddingRight: horizontalGutter ? horizontalGutter / 2 : null,
-                  paddingTop: verticalGutter ? verticalGutter / 2 : null,
-                  paddingBottom: verticalGutter ? verticalGutter / 2 : null
-                }
-              })
+        {React.Children
+          .toArray(children)
+          .map((component, { index }) => ({
+            component,
+            index,
+            order: activeBreakpoints.reduce(
+              (order, { size }) => component.props[`${size}Order`] || order,
+              0
             )
-          : children}
+          }))
+          .sort(
+            (a, b) =>
+              a.order < b.order
+                ? -1
+                : a.order > b.order
+                  ? 1
+                  : a.index < b.index ? -1 : a.index > b.index ? 1 : 0
+          )
+          .map(({ component }) =>
+            React.cloneElement(component, {
+              style: {
+                ...component.props.style,
+                paddingLeft: horizontalGutter ? horizontalGutter / 2 : null,
+                paddingRight: horizontalGutter ? horizontalGutter / 2 : null,
+                paddingTop: verticalGutter ? verticalGutter / 2 : null,
+                paddingBottom: verticalGutter ? verticalGutter / 2 : null
+              }
+            })
+          )}
       </Wrapper>
     );
   };
