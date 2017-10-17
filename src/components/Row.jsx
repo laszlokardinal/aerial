@@ -45,8 +45,7 @@ module.exports = (
           flexWrap: "wrap",
           marginLeft: horizontalGutter ? -horizontalGutter / 2 : null,
           marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
-          marginTop: verticalGutter ? -verticalGutter / 2 : null,
-          marginBottom: verticalGutter ? -verticalGutter / 2 : null,
+          marginTop: verticalGutter ? -verticalGutter : null,
           alignItems,
           alignContent,
           justifyContent
@@ -76,8 +75,7 @@ module.exports = (
                 ...component.props.style,
                 paddingLeft: horizontalGutter ? horizontalGutter / 2 : null,
                 paddingRight: horizontalGutter ? horizontalGutter / 2 : null,
-                paddingTop: verticalGutter ? verticalGutter / 2 : null,
-                paddingBottom: verticalGutter ? verticalGutter / 2 : null
+                paddingTop: verticalGutter ? verticalGutter : null
               }
             })
           )}

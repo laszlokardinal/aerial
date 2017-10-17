@@ -244,20 +244,17 @@ describe("<Row />", () => {
           {
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop: null,
-            paddingBottom: null
+            paddingTop: null
           },
           {
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop: null,
-            paddingBottom: null
+            paddingTop: null
           },
           {
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop: null,
-            paddingBottom: null
+            paddingTop: null
           }
         ]);
       } finally {
@@ -277,8 +274,7 @@ describe("<Row />", () => {
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
-          marginTop: -10,
-          marginBottom: -10
+          marginTop: -20
         });
       } finally {
         wrapper.unmount();
@@ -309,20 +305,17 @@ describe("<Row />", () => {
 
         expect(styles).to.deep.equal([
           {
-            paddingTop: 10,
-            paddingBottom: 10,
+            paddingTop: 20,
             paddingLeft: null,
             paddingRight: null
           },
           {
-            paddingTop: 10,
-            paddingBottom: 10,
+            paddingTop: 20,
             paddingLeft: null,
             paddingRight: null
           },
           {
-            paddingTop: 10,
-            paddingBottom: 10,
+            paddingTop: 20,
             paddingLeft: null,
             paddingRight: null
           }
