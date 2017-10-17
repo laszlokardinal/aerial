@@ -76,6 +76,7 @@ describe("<Row />", () => {
       try {
         expect(wrapper.find("div").prop("style")).to.include({
           display: "flex",
+          flexDirection: "row",
           flexWrap: "wrap"
         });
       } finally {
@@ -139,7 +140,8 @@ describe("<Row />", () => {
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
-          margin: "0px -10px"
+          marginLeft: -10,
+          marginRight: -10
         });
       } finally {
         wrapper.unmount();
@@ -147,61 +149,6 @@ describe("<Row />", () => {
     });
 
     it("the children with half of the horizontalGutter as padding", () => {
-      const Row = require("./Row.jsx")({
-        withScreenDetails: Component => Component,
-        Col: TestCol,
-        Wrapper: "div"
-      });
-
-      const className = "block__element block__element--modifier";
-
-      const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20}>
-          <TestCol />
-          <TestCol />
-          <TestCol />
-        </Row>
-      );
-
-      try {
-        const styles = [];
-
-        wrapper
-          .find("TestCol")
-          .forEach(testChild => styles.push(testChild.prop("style")));
-
-        expect(styles).to.deep.equal([
-          { padding: "10px 0px" },
-          { padding: "10px 0px" },
-          { padding: "10px 0px" }
-        ]);
-      } finally {
-        wrapper.unmount();
-      }
-    });
-
-    it("the wrapper div with half of the verticalGutter as negative vertical margin", () => {
-      const Row = require("./Row.jsx")({
-        withScreenDetails: Component => Component,
-        Wrapper: "div"
-      });
-
-      const className = "block__element block__element--modifier";
-
-      const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20} />
-      );
-
-      try {
-        expect(wrapper.find("div").prop("style")).to.include({
-          margin: "-10px 0px"
-        });
-      } finally {
-        wrapper.unmount();
-      }
-    });
-
-    it("the children with half of the verticalGutter as padding", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
         Col: TestCol,
@@ -226,9 +173,95 @@ describe("<Row />", () => {
           .forEach(testChild => styles.push(testChild.prop("style")));
 
         expect(styles).to.deep.equal([
-          { padding: "0px 10px" },
-          { padding: "0px 10px" },
-          { padding: "0px 10px" }
+          {
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: null,
+            paddingBottom: null
+          },
+          {
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: null,
+            paddingBottom: null
+          },
+          {
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: null,
+            paddingBottom: null
+          }
+        ]);
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("the wrapper div with half of the verticalGutter as negative vertical margin", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const className = "block__element block__element--modifier";
+
+      const wrapper = shallow(
+        <Row screenDetails={screenDetails} verticalGutter={20} />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          marginTop: -10,
+          marginBottom: -10
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("the children with half of the verticalGutter as padding", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Col: TestCol,
+        Wrapper: "div"
+      });
+
+      const className = "block__element block__element--modifier";
+
+      const wrapper = shallow(
+        <Row screenDetails={screenDetails} verticalGutter={20}>
+          <TestCol />
+          <TestCol />
+          <TestCol />
+        </Row>
+      );
+
+      try {
+        const styles = [];
+
+        wrapper
+          .find("TestCol")
+          .forEach(testChild => styles.push(testChild.prop("style")));
+
+        expect(styles).to.deep.equal([
+          {
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: null,
+            paddingRight: null
+          },
+          {
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: null,
+            paddingRight: null
+          },
+          {
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: null,
+            paddingRight: null
+          }
         ]);
       } finally {
         wrapper.unmount();

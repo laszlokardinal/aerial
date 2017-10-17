@@ -92,7 +92,10 @@ module.exports = (
       PropTypes.shape({
         size: PropTypes.string.isRequired,
         minWidth: PropTypes.number.isRequied,
-        containerWidth: PropTypes.string.isRequired
+        containerWidth: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number
+        ]).isRequired
       })
     ),
     deviceWidth: PropTypes.number
@@ -103,22 +106,22 @@ module.exports = (
       {
         size: "xs",
         minWidth: 0,
-        containerWidth: "auto"
+        containerWidth: "100%"
       },
       {
         size: "sm",
         minWidth: 768,
-        containerWidth: "750px"
+        containerWidth: 750
       },
       {
         size: "md",
         minWidth: 992,
-        containerWidth: "970px"
+        containerWidth: 970
       },
       {
         size: "lg",
         minWidth: 1200,
-        containerWidth: "1170px"
+        containerWidth: 1170
       }
     ]
   };

@@ -3,7 +3,8 @@ module.exports = (
     React = require("react"),
     PropTypes = require("prop-types"),
     withScreenDetails,
-    Wrapper
+    Wrapper,
+    containerStyle
   } = {}
 ) => {
   const { Component } = React;
@@ -20,8 +21,7 @@ module.exports = (
         className={className}
         style={{
           ...style,
-          marginLeft: "auto",
-          marginRight: "auto",
+          ...containerStyle,
           width: containerWidth
         }}
       >

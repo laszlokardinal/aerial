@@ -3,7 +3,8 @@ module.exports = (
     React = require("react"),
     PropTypes = require("prop-types"),
     withScreenDetails,
-    Wrapper
+    Wrapper,
+    colStyle = {}
   } = {}
 ) => {
   const { Component } = React;
@@ -26,9 +27,11 @@ module.exports = (
         className={className}
         style={{
           ...style,
-          flex: `0 0 ${width * 100}%`,
+          ...colStyle,
+          width: `${width * 100}%`,
           marginLeft: offset ? `${offset * 100}%` : null,
-          boxSizing: "border-box"
+          flexShrink: 0,
+          flexGrow: 0
         }}
       >
         {children}

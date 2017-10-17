@@ -1,30 +1,27 @@
-const detailsSource = window
-  ? require("./detailsSources/domDetailsSource")({
-      window
-    })
-  : null;
+const { View, Dimensions } = require("react-native");
+
+const detailsSource = require("./detailsSources/reactNativeDetailsSource")({
+  Dimensions
+});
 
 const withScreenDetails = require("./hocs/withScreenDetails")();
 
 module.exports = {
   Col: require("./components/Col")({
     withScreenDetails,
-    Wrapper: "div",
-    colStyle: {
-      boxSizing: "border-box"
-    }
+    Wrapper: View
   }),
   Container: require("./components/Container")({
     withScreenDetails,
-    Wrapper: "div",
+    Wrapper: View,
     containerStyle: {
-      marginLeft: "auto",
-      marginRight: "auto"
+      flex: 0,
+      alignSelf: "center"
     }
   }),
   Row: require("./components/Row")({
     withScreenDetails,
-    Wrapper: "div"
+    Wrapper: View
   }),
   ScreenDetailsProvider: require("./components/ScreenDetailsProvider")({
     detailsSource

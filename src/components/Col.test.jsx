@@ -61,6 +61,26 @@ describe("<Col />", () => {
       }
     });
 
+    it("applies injected styles on the wrapper", () => {
+      const Col = require("./Col.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div",
+        colStyle: {
+          boxSizing: "border-box"
+        }
+      });
+
+      const wrapper = shallow(<Col screenDetails={screenDetails} />);
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          boxSizing: "border-box"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("applies default styles on the wrapper", () => {
       const Col = require("./Col.jsx")({
         withScreenDetails: Component => Component,
@@ -71,7 +91,8 @@ describe("<Col />", () => {
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
-          boxSizing: "border-box"
+          flexShrink: 0,
+          flexGrow: 0
         });
       } finally {
         wrapper.unmount();
@@ -132,7 +153,7 @@ describe("<Col />", () => {
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
-          flex: "0 0 50%"
+          width: "50%"
         });
       } finally {
         wrapper.unmount();
@@ -149,7 +170,7 @@ describe("<Col />", () => {
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
-          flex: "0 0 100%"
+          width: "100%"
         });
       } finally {
         wrapper.unmount();

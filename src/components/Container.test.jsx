@@ -61,10 +61,14 @@ describe("<Container />", () => {
       }
     });
 
-    it("the wrapper with auto marginLeft & marginRight", () => {
+    it("applies injected styles on the wrapper", () => {
       const Container = require("./Container.jsx")({
         withScreenDetails: Component => Component,
-        Wrapper: "div"
+        Wrapper: "div",
+        containerStyle: {
+          marginLeft: "auto",
+          marginRight: "auto"
+        }
       });
 
       const style = {

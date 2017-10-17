@@ -17,26 +17,29 @@ module.exports = (
       children
     } = props;
 
-    const hasGutter = horizontalGutter || verticalGutter;
-
     return (
       <Wrapper
         className={className}
         style={{
           ...style,
           display: "flex",
+          flexDirection: "row",
           flexWrap: "wrap",
-          margin: hasGutter
-            ? `${-verticalGutter / 2}px ${-horizontalGutter / 2}px`
-            : null
+          marginLeft: horizontalGutter ? -horizontalGutter / 2 : null,
+          marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
+          marginTop: verticalGutter ? -verticalGutter / 2 : null,
+          marginBottom: verticalGutter ? -verticalGutter / 2 : null
         }}
       >
-        {hasGutter
+        {horizontalGutter || verticalGutter
           ? React.Children.map(children, col =>
               React.cloneElement(col, {
                 style: {
                   ...col.props.style,
-                  padding: `${verticalGutter / 2}px ${horizontalGutter / 2}px`
+                  paddingLeft: horizontalGutter ? horizontalGutter / 2 : null,
+                  paddingRight: horizontalGutter ? horizontalGutter / 2 : null,
+                  paddingTop: verticalGutter ? verticalGutter / 2 : null,
+                  paddingBottom: verticalGutter ? verticalGutter / 2 : null
                 }
               })
             )
