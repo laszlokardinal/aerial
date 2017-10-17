@@ -174,6 +174,30 @@ describe("<Row />", () => {
       }
     });
 
+    it("applies the highest matching JustifyContent from the props", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row
+          screenDetails={screenDetails}
+          aJustifyContent="flex-start"
+          bJustifyContent="center"
+          dJustifyContent="flex-end"
+        />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          justifyContent: "center"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("the wrapper div with half of the horizontalGutter as negative horizontal margin", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,

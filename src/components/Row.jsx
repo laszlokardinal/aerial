@@ -18,15 +18,19 @@ module.exports = (
       children
     } = props;
 
-    const { alignItems, alignContent } = screenDetails.breakpoints
-      .filter(({ active }) => active)
-      .reduce(
-        ({ alignItems, alignContent }, { size }) => ({
-          alignItems: props[`${size}AlignItems`] || alignItems,
-          alignContent: props[`${size}AlignContent`] || alignContent
-        }),
-        { alignItems: null, alignContent: null }
-      );
+    const {
+      alignItems,
+      alignContent,
+      justifyContent
+    } = screenDetails.breakpoints.filter(({ active }) => active).reduce((
+      { alignItems, alignContent, justifyContent },
+      { size }
+    ) => ({
+      alignItems: props[`${size}AlignItems`] || alignItems,
+      alignContent: props[`${size}AlignContent`] || alignContent,
+      justifyContent: props[`${size}JustifyContent`] || justifyContent
+    }),
+    { alignItems: null, alignContent: null, justifyContent: null });
 
     return (
       <Wrapper
@@ -41,7 +45,8 @@ module.exports = (
           marginTop: verticalGutter ? -verticalGutter / 2 : null,
           marginBottom: verticalGutter ? -verticalGutter / 2 : null,
           alignItems,
-          alignContent
+          alignContent,
+          justifyContent
         }}
       >
         {horizontalGutter || verticalGutter
