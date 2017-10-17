@@ -14,8 +14,18 @@ module.exports = (
       className,
       horizontalGutter,
       verticalGutter,
+      screenDetails,
       children
     } = props;
+
+    const { alignItems } = screenDetails.breakpoints
+      .filter(({ active }) => active)
+      .reduce(
+        ({ alignItems }, { size }) => ({
+          alignItems: props[`${size}AlignItems`] || alignItems
+        }),
+        { alignItems: null }
+      );
 
     return (
       <Wrapper
@@ -28,7 +38,8 @@ module.exports = (
           marginLeft: horizontalGutter ? -horizontalGutter / 2 : null,
           marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
           marginTop: verticalGutter ? -verticalGutter / 2 : null,
-          marginBottom: verticalGutter ? -verticalGutter / 2 : null
+          marginBottom: verticalGutter ? -verticalGutter / 2 : null,
+          alignItems
         }}
       >
         {horizontalGutter || verticalGutter
