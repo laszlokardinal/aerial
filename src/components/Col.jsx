@@ -1,3 +1,15 @@
+const mapVerticalAlign = verticalAlign =>
+  verticalAlign
+    ? {
+        auto: "auto",
+        top: "flex-start",
+        bottom: "flex-end",
+        center: "center",
+        baseline: "baseline",
+        stretch: "stretch"
+      }[verticalAlign] || null
+    : null;
+
 module.exports = (
   {
     React = require("react"),
@@ -12,15 +24,15 @@ module.exports = (
   const Col = props => {
     const { style, className, screenDetails, children } = props;
 
-    const { width, offset, alignSelf } = screenDetails.breakpoints
+    const { width, offset, verticalAlign } = screenDetails.breakpoints
       .filter(({ active }) => active)
       .reduce(
-        ({ width, offset, alignSelf }, { size }) => ({
+        ({ width, offset, verticalAlign }, { size }) => ({
           width: props[size] || width,
           offset: props[`${size}Offset`] || offset,
-          alignSelf: props[`${size}AlignSelf`] || alignSelf
+          verticalAlign: props[`${size}VerticalAlign`] || verticalAlign
         }),
-        { width: 1, offset: 0, alignSelf: null }
+        { width: 1, offset: 0, verticalAlign: "auto" }
       );
 
     return (
@@ -33,7 +45,7 @@ module.exports = (
           marginLeft: offset ? `${offset * 100}%` : null,
           flexShrink: 0,
           flexGrow: 0,
-          alignSelf
+          alignSelf: mapVerticalAlign(verticalAlign)
         }}
       >
         {children}

@@ -227,15 +227,72 @@ describe("<Col />", () => {
       const wrapper = shallow(
         <Col
           screenDetails={screenDetails}
-          aAlignSelf="flex-start"
-          bAlignSelf="center"
-          dAlignSelf="flex-end"
+          aVerticalAlign="center"
+          bVerticalAlign="top"
+          dVerticalAlign="bottom"
         />
       );
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
+          alignSelf: "flex-start"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("applies the VerticalAlign prop mapped to alignItems", () => {
+      const Col = require("./Col.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = mount(
+        <div>
+          <Col
+            screenDetails={screenDetails}
+            aVerticalAlign="auto"
+            className="auto"
+          />
+          <Col
+            screenDetails={screenDetails}
+            aVerticalAlign="top"
+            className="top"
+          />
+          <Col
+            screenDetails={screenDetails}
+            aVerticalAlign="center"
+            className="center"
+          />
+          <Col
+            screenDetails={screenDetails}
+            aVerticalAlign="bottom"
+            className="bottom"
+          />
+          <Col
+            screenDetails={screenDetails}
+            aVerticalAlign="stretch"
+            className="stretch"
+          />
+        </div>
+      );
+
+      try {
+        expect(wrapper.find("div.auto").prop("style")).to.include({
+          alignSelf: "auto"
+        });
+        expect(wrapper.find("div.top").prop("style")).to.include({
+          alignSelf: "flex-start"
+        });
+        expect(wrapper.find("div.center").prop("style")).to.include({
           alignSelf: "center"
+        });
+        expect(wrapper.find("div.bottom").prop("style")).to.include({
+          alignSelf: "flex-end"
+        });
+        expect(wrapper.find("div.stretch").prop("style")).to.include({
+          alignSelf: "stretch"
         });
       } finally {
         wrapper.unmount();
