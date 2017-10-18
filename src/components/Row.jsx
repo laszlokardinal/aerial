@@ -7,6 +7,16 @@ const mapHorizontalAlign = horizontalAlign =>
       }[horizontalAlign] || null
     : null;
 
+const mapVerticalAlign = verticalAlign =>
+  verticalAlign
+    ? {
+        top: "flex-start",
+        center: "center",
+        bottom: "flex-end",
+        stretch: "stretch"
+      }[verticalAlign] || null
+    : null;
+
 module.exports = (
   {
     React = require("react"),
@@ -25,32 +35,32 @@ module.exports = (
     );
 
     const {
-      alignItems,
-      alignContent,
       horizontalAlign,
+      verticalAlign,
+      alignContent,
       horizontalGutter,
       verticalGutter
     } = activeBreakpoints.reduce(
       (
         {
-          alignItems,
-          alignContent,
           horizontalAlign,
+          verticalAlign,
+          alignContent,
           horizontalGutter,
           verticalGutter
         },
         { size }
       ) => ({
-        alignItems: props[`${size}AlignItems`] || alignItems,
-        alignContent: props[`${size}AlignContent`] || alignContent,
         horizontalAlign: props[`${size}HorizontalAlign`] || horizontalAlign,
+        verticalAlign: props[`${size}VerticalAlign`] || verticalAlign,
+        alignContent: props[`${size}AlignContent`] || alignContent,
         horizontalGutter: props[`${size}HorizontalGutter`] || horizontalGutter,
         verticalGutter: props[`${size}VerticalGutter`] || verticalGutter
       }),
       {
-        alignItems: null,
-        alignContent: null,
         horizontalAlign: "left",
+        verticalAlign: "top",
+        alignContent: null,
         horizontalGutter: 0,
         verticalGutter: 0
       }
@@ -67,9 +77,9 @@ module.exports = (
           marginLeft: horizontalGutter ? -horizontalGutter / 2 : null,
           marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
           marginTop: verticalGutter ? -verticalGutter : null,
-          alignItems,
-          alignContent,
-          justifyContent: mapHorizontalAlign(horizontalAlign)
+          alignItems: mapVerticalAlign(verticalAlign),
+          justifyContent: mapHorizontalAlign(horizontalAlign),
+          alignContent
         }}
       >
         {React.Children

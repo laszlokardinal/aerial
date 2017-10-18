@@ -126,7 +126,7 @@ describe("<Row />", () => {
       }
     });
 
-    it("applies the highest matching AlignItems from the props", () => {
+    it("applies the highest matching VerticalAlign from the props", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
         Wrapper: "div"
@@ -135,15 +135,64 @@ describe("<Row />", () => {
       const wrapper = shallow(
         <Row
           screenDetails={screenDetails}
-          aAlignItems="flex-start"
-          bAlignItems="center"
-          dAlignItems="flex-end"
+          aVerticalAlign="center"
+          bVerticalAlign="top"
+          dVerticalAlign="stretch"
         />
       );
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
+          alignItems: "flex-start"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("applies the VerticalAlign prop mapped to alignItems", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = mount(
+        <div>
+          <Row
+            screenDetails={screenDetails}
+            aVerticalAlign="top"
+            className="top"
+          />
+          <Row
+            screenDetails={screenDetails}
+            aVerticalAlign="center"
+            className="center"
+          />
+          <Row
+            screenDetails={screenDetails}
+            aVerticalAlign="bottom"
+            className="bottom"
+          />
+          <Row
+            screenDetails={screenDetails}
+            aVerticalAlign="stretch"
+            className="stretch"
+          />
+        </div>
+      );
+
+      try {
+        expect(wrapper.find("div.top").prop("style")).to.include({
+          alignItems: "flex-start"
+        });
+        expect(wrapper.find("div.center").prop("style")).to.include({
           alignItems: "center"
+        });
+        expect(wrapper.find("div.bottom").prop("style")).to.include({
+          alignItems: "flex-end"
+        });
+        expect(wrapper.find("div.stretch").prop("style")).to.include({
+          alignItems: "stretch"
         });
       } finally {
         wrapper.unmount();
