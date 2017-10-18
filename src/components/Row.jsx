@@ -1,3 +1,12 @@
+const mapHorizontalAlign = horizontalAlign =>
+  horizontalAlign
+    ? {
+        left: "flex-start",
+        center: "center",
+        right: "flex-end"
+      }[horizontalAlign] || null
+    : null;
+
 module.exports = (
   {
     React = require("react"),
@@ -18,7 +27,7 @@ module.exports = (
     const {
       alignItems,
       alignContent,
-      justifyContent,
+      horizontalAlign,
       horizontalGutter,
       verticalGutter
     } = activeBreakpoints.reduce(
@@ -26,7 +35,7 @@ module.exports = (
         {
           alignItems,
           alignContent,
-          justifyContent,
+          horizontalAlign,
           horizontalGutter,
           verticalGutter
         },
@@ -34,14 +43,14 @@ module.exports = (
       ) => ({
         alignItems: props[`${size}AlignItems`] || alignItems,
         alignContent: props[`${size}AlignContent`] || alignContent,
-        justifyContent: props[`${size}JustifyContent`] || justifyContent,
+        horizontalAlign: props[`${size}HorizontalAlign`] || horizontalAlign,
         horizontalGutter: props[`${size}HorizontalGutter`] || horizontalGutter,
         verticalGutter: props[`${size}VerticalGutter`] || verticalGutter
       }),
       {
         alignItems: null,
         alignContent: null,
-        justifyContent: null,
+        horizontalAlign: "left",
         horizontalGutter: 0,
         verticalGutter: 0
       }
@@ -60,7 +69,7 @@ module.exports = (
           marginTop: verticalGutter ? -verticalGutter : null,
           alignItems,
           alignContent,
-          justifyContent
+          justifyContent: mapHorizontalAlign(horizontalAlign)
         }}
       >
         {React.Children

@@ -174,7 +174,7 @@ describe("<Row />", () => {
       }
     });
 
-    it("applies the highest matching JustifyContent from the props", () => {
+    it("applies the highest matching HorizontalAlign from the props", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
         Wrapper: "div"
@@ -183,15 +183,56 @@ describe("<Row />", () => {
       const wrapper = shallow(
         <Row
           screenDetails={screenDetails}
-          aJustifyContent="flex-start"
-          bJustifyContent="center"
-          dJustifyContent="flex-end"
+          aHorizontalAlign="center"
+          bHorizontalAlign="left"
+          dHorizontalAlign="right"
         />
       );
 
       try {
         expect(wrapper.find("div").prop("style")).to.include({
+          justifyContent: "flex-start"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("applies the HorizontalAlign prop mapped to justifyContent", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = mount(
+        <div>
+          <Row
+            screenDetails={screenDetails}
+            aHorizontalAlign="left"
+            className="left"
+          />
+          <Row
+            screenDetails={screenDetails}
+            aHorizontalAlign="center"
+            className="center"
+          />
+          <Row
+            screenDetails={screenDetails}
+            aHorizontalAlign="right"
+            className="right"
+          />
+        </div>
+      );
+
+      try {
+        expect(wrapper.find("div.left").prop("style")).to.include({
+          justifyContent: "flex-start"
+        });
+        expect(wrapper.find("div.center").prop("style")).to.include({
           justifyContent: "center"
+        });
+        expect(wrapper.find("div.right").prop("style")).to.include({
+          justifyContent: "flex-end"
         });
       } finally {
         wrapper.unmount();
