@@ -198,6 +198,31 @@ describe("<Row />", () => {
       }
     });
 
+    it("applies the highest matching HorizontalGutter from the props", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row
+          screenDetails={screenDetails}
+          aHorizontalGutter={10}
+          bHorizontalGutter={20}
+          dHorizontalGutter={30}
+        />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          marginLeft: -10,
+          marginRight: -10
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("the wrapper div with half of the horizontalGutter as negative horizontal margin", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
@@ -205,7 +230,7 @@ describe("<Row />", () => {
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} horizontalGutter={20} />
+        <Row screenDetails={screenDetails} aHorizontalGutter={20} />
       );
 
       try {
@@ -226,7 +251,7 @@ describe("<Row />", () => {
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} horizontalGutter={20}>
+        <Row screenDetails={screenDetails} aHorizontalGutter={20}>
           <TestCol />
           <TestCol />
           <TestCol />
@@ -262,14 +287,19 @@ describe("<Row />", () => {
       }
     });
 
-    it("the wrapper div with half of the verticalGutter as negative vertical margin", () => {
+    it("applies the highest matching VerticalGutter from the props", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
         Wrapper: "div"
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20} />
+        <Row
+          screenDetails={screenDetails}
+          aVerticalGutter={10}
+          bVerticalGutter={20}
+          dVerticalGutter={30}
+        />
       );
 
       try {
@@ -281,7 +311,26 @@ describe("<Row />", () => {
       }
     });
 
-    it("the children with half of the verticalGutter as padding", () => {
+    it("the wrapper div with the negative verticalGutter as marginTop", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(
+        <Row screenDetails={screenDetails} aVerticalGutter={20} />
+      );
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          marginTop: -20
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
+    it("the children with the negative verticalGutter as paddingTop", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
         Col: TestCol,
@@ -289,7 +338,7 @@ describe("<Row />", () => {
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20}>
+        <Row screenDetails={screenDetails} aVerticalGutter={20}>
           <TestCol />
           <TestCol />
           <TestCol />
@@ -333,7 +382,7 @@ describe("<Row />", () => {
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20}>
+        <Row screenDetails={screenDetails}>
           <TestCol className="first" />
           <TestCol className="second" />
           <TestCol className="third" />
@@ -355,7 +404,7 @@ describe("<Row />", () => {
       });
 
       const wrapper = shallow(
-        <Row screenDetails={screenDetails} verticalGutter={20}>
+        <Row screenDetails={screenDetails}>
           <TestCol className="fifth" bOrder={15} cOrder={39} />
           <TestCol className="fourth" bOrder={20} />
           <TestCol className="second" />

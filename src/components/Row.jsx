@@ -9,14 +9,7 @@ module.exports = (
   const { Component } = React;
 
   const Row = props => {
-    const {
-      style,
-      className,
-      horizontalGutter,
-      verticalGutter,
-      screenDetails,
-      children
-    } = props;
+    const { style, className, screenDetails, children } = props;
 
     const activeBreakpoints = screenDetails.breakpoints.filter(
       ({ active }) => active
@@ -25,14 +18,33 @@ module.exports = (
     const {
       alignItems,
       alignContent,
-      justifyContent
+      justifyContent,
+      horizontalGutter,
+      verticalGutter
     } = activeBreakpoints.reduce(
-      ({ alignItems, alignContent, justifyContent }, { size }) => ({
+      (
+        {
+          alignItems,
+          alignContent,
+          justifyContent,
+          horizontalGutter,
+          verticalGutter
+        },
+        { size }
+      ) => ({
         alignItems: props[`${size}AlignItems`] || alignItems,
         alignContent: props[`${size}AlignContent`] || alignContent,
-        justifyContent: props[`${size}JustifyContent`] || justifyContent
+        justifyContent: props[`${size}JustifyContent`] || justifyContent,
+        horizontalGutter: props[`${size}HorizontalGutter`] || horizontalGutter,
+        verticalGutter: props[`${size}VerticalGutter`] || verticalGutter
       }),
-      { alignItems: null, alignContent: null, justifyContent: null }
+      {
+        alignItems: null,
+        alignContent: null,
+        justifyContent: null,
+        horizontalGutter: 0,
+        verticalGutter: 0
+      }
     );
 
     return (
