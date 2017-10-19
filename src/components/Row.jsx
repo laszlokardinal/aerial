@@ -37,7 +37,6 @@ module.exports = (
     const {
       horizontalAlign,
       verticalAlign,
-      alignContent,
       horizontalGutter,
       verticalGutter
     } = activeBreakpoints.reduce(
@@ -45,7 +44,6 @@ module.exports = (
         {
           horizontalAlign,
           verticalAlign,
-          alignContent,
           horizontalGutter,
           verticalGutter
         },
@@ -53,14 +51,12 @@ module.exports = (
       ) => ({
         horizontalAlign: props[`${size}HorizontalAlign`] || horizontalAlign,
         verticalAlign: props[`${size}VerticalAlign`] || verticalAlign,
-        alignContent: props[`${size}AlignContent`] || alignContent,
         horizontalGutter: props[`${size}HorizontalGutter`] || horizontalGutter,
         verticalGutter: props[`${size}VerticalGutter`] || verticalGutter
       }),
       {
         horizontalAlign: "left",
         verticalAlign: "top",
-        alignContent: null,
         horizontalGutter: 0,
         verticalGutter: 0
       }
@@ -78,8 +74,7 @@ module.exports = (
           marginRight: horizontalGutter ? -horizontalGutter / 2 : null,
           marginTop: verticalGutter ? -verticalGutter : null,
           alignItems: mapVerticalAlign(verticalAlign),
-          justifyContent: mapHorizontalAlign(horizontalAlign),
-          alignContent
+          justifyContent: mapHorizontalAlign(horizontalAlign)
         }}
       >
         {React.Children
