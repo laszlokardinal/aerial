@@ -1,9 +1,10 @@
 {
-  "name": "aerial",
+  "name": "react-aerial",
   "version": "0.1.0",
-  "description": "",
+  "description": "Aerial is a customizable flexbox based mobile-first responsive library for React DOM & React Native",
   "main": "dom.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "babel src --out-dir lib --ignore test.js --presets=es2015,react,stage-0",
     "test": "mocha --require babel-core/register mochaInit.js \"src/**/*.test.{js,jsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
@@ -39,5 +40,15 @@
     "react-test-renderer": "^16.0.0",
     "sinon": "^4.0.1",
     "react-dom": "^16.0.0"
-  }
+  },
+  "keywords": [
+    "react",
+    "dom",
+    "native",
+    "flex",
+    "flexbox",
+    "bootstrap",
+    "responsive",
+    "grid"
+  ]
 }
