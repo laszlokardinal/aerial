@@ -79,7 +79,7 @@ module.exports = (
       >
         {React.Children
           .toArray(children)
-          .map((component, { index }) => ({
+          .map((component, index) => ({
             component,
             index,
             order: activeBreakpoints.reduce(
