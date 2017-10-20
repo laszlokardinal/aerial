@@ -2,6 +2,8 @@
 
 Aerial is a customizable flexbox based mobile-first responsive library for React DOM & React Native.
 
+[DEMO](https://laszlokardinal.github.io/aerial-demo)
+
 #### install
 
 ```
