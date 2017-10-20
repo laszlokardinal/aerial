@@ -28,9 +28,13 @@ module.exports = (
       .filter(({ active }) => active)
       .reduce(
         ({ width, offset, verticalAlign }, { size }) => ({
-          width: props[size] || width,
-          offset: props[`${size}Offset`] || offset,
-          verticalAlign: props[`${size}VerticalAlign`] || verticalAlign
+          width: props[size] != null ? props[size] : width,
+          offset:
+            props[`${size}Offset`] != null ? props[`${size}Offset`] : offset,
+          verticalAlign:
+            props[`${size}VerticalAlign`] != null
+              ? props[`${size}VerticalAlign`]
+              : verticalAlign
         }),
         { width: 1, offset: 0, verticalAlign: "auto" }
       );

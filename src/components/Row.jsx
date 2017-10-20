@@ -41,18 +41,25 @@ module.exports = (
       verticalGutter
     } = activeBreakpoints.reduce(
       (
-        {
-          horizontalAlign,
-          verticalAlign,
-          horizontalGutter,
-          verticalGutter
-        },
+        { horizontalAlign, verticalAlign, horizontalGutter, verticalGutter },
         { size }
       ) => ({
-        horizontalAlign: props[`${size}HorizontalAlign`] || horizontalAlign,
-        verticalAlign: props[`${size}VerticalAlign`] || verticalAlign,
-        horizontalGutter: props[`${size}HorizontalGutter`] || horizontalGutter,
-        verticalGutter: props[`${size}VerticalGutter`] || verticalGutter
+        horizontalAlign:
+          props[`${size}HorizontalAlign`] != null
+            ? props[`${size}HorizontalAlign`]
+            : horizontalAlign,
+        verticalAlign:
+          props[`${size}VerticalAlign`] != null
+            ? props[`${size}VerticalAlign`]
+            : verticalAlign,
+        horizontalGutter:
+          props[`${size}HorizontalGutter`] != null
+            ? props[`${size}HorizontalGutter`]
+            : horizontalGutter,
+        verticalGutter:
+          props[`${size}VerticalGutter`] != null
+            ? props[`${size}VerticalGutter`]
+            : verticalGutter
       }),
       {
         horizontalAlign: "left",
