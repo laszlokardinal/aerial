@@ -90,7 +90,10 @@ module.exports = (
             component,
             index,
             order: activeBreakpoints.reduce(
-              (order, { size }) => component.props[`${size}Order`] || order,
+              (order, { size }) =>
+                component.props[`${size}Order`] != null
+                  ? component.props[`${size}Order`]
+                  : order,
               0
             )
           }))

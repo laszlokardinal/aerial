@@ -471,11 +471,11 @@ describe("<Row />", () => {
 
       const wrapper = shallow(
         <Row screenDetails={screenDetails}>
-          <TestCol className="fifth" bOrder={15} cOrder={39} />
+          <TestCol className="fifth" bOrder={15} cOrder={39} dOrder={-100} />
           <TestCol className="fourth" bOrder={20} />
           <TestCol className="second" />
           <TestCol className="first" aOrder={-1} />
-          <TestCol className="third" />
+          <TestCol className="third" aOrder={100} bOrder={0} />
         </Row>
       );
 
