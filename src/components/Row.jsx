@@ -63,7 +63,7 @@ module.exports = (
       }),
       {
         horizontalAlign: "left",
-        verticalAlign: "top",
+        verticalAlign: "stretch",
         horizontalGutter: 0,
         verticalGutter: 0
       }

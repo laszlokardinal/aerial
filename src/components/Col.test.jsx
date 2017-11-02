@@ -141,6 +141,25 @@ describe("<Col />", () => {
       }
     });
 
+    it("the wrapper with the proper default values", () => {
+      const Col = require("./Col.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(<Col screenDetails={screenDetails} />);
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          width: "100%",
+          marginLeft: null,
+          alignSelf: "auto"
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("applies the highest matching active width from the props", () => {
       const Col = require("./Col.jsx")({
         withScreenDetails: Component => Component,

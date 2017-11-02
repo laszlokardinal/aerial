@@ -1,6 +1,6 @@
 {
   "name": "react-aerial",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Aerial is a customizable flexbox based mobile-first responsive library for React DOM & React Native",
   "main": "dom.js",
   "scripts": {

@@ -126,6 +126,27 @@ describe("<Row />", () => {
       }
     });
 
+    it("the wrapper with the proper default values", () => {
+      const Row = require("./Row.jsx")({
+        withScreenDetails: Component => Component,
+        Wrapper: "div"
+      });
+
+      const wrapper = shallow(<Row screenDetails={screenDetails} />);
+
+      try {
+        expect(wrapper.find("div").prop("style")).to.include({
+          alignItems: "stretch",
+          justifyContent: "flex-start",
+          marginLeft: null,
+          marginRight: null,
+          marginTop: null
+        });
+      } finally {
+        wrapper.unmount();
+      }
+    });
+
     it("applies the highest matching VerticalAlign from the props", () => {
       const Row = require("./Row.jsx")({
         withScreenDetails: Component => Component,
